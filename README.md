@@ -72,7 +72,7 @@ All scripts are self-contained Python files. Run with `python3 scripts/XX_name.p
 
 ## Companion Repositories
 
-- [causal-algebraic-geometry-lean](https://github.com/tomdif/causal-algebraic-geometry-lean) — Lean 4 formalization (dimension law, tiling inequality, Wilson loop)
+- [causal-algebraic-geometry-lean](https://github.com/tomdif/causal-algebraic-geometry-lean) — Lean 4 formalization (dimension law, tiling inequality, ρ₂ = 16 fully proved, Wilson loop)
 - Papers I–III: Grid Convex Subsets, Causal-Algebraic Geometry, Black Hole Thermodynamics
 
 ## Citation
