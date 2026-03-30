@@ -25,12 +25,16 @@ On 42 variable-width two-dimensional grids at fixed element count
 $n = 15$ and curvatures ranging from $R = -10$ to $R = +10$, we find
 that the effective action decomposes as
 $S_{\mathrm{eff}} = a \cdot R + b \cdot \sum (\log w_{i+1} -
-\log w_i)^2$, with $R^2 = 0.85$ at $\beta = 1$ rising to $0.90$ at
-$\beta = 3$. At $n = 30$ (50 profiles), the topological
+\log w_i)^2$. A massive-scale test (2{,}061 profiles across
+$n = 15$ and $n = 20$) confirms the decomposition with
+$R^2 \approx 0.71$ at $\beta = 1$ rising to $\approx 0.81$ at
+$\beta = 3$, with the log-Schwarzian dominating
+($R^2 \approx 0.58$ alone) and the curvature $R$ contributing only
+$\sim 10\%$. At $n = 30$ (50 profiles), the topological
 Einstein-Hilbert term $R$ becomes negligible ($R^2 < 0.01$) while
 the conformal-mode kinetic term (the log-Schwarzian) explains
 $65\%$ of the variance alone. Both coefficients scale linearly with
-$\beta$ ($R^2 > 0.99$) at both system sizes, confirming the
+$\beta$ ($R^2 > 0.99$) at both system sizes, supporting the
 decomposition into
 $\log Z = -\beta \cdot S_{\mathrm{eff}} + \mathrm{entropy}$.
 The vanishing of the $R$ contribution at larger $n$ is the expected
@@ -49,12 +53,10 @@ grids. The thermal entropy fits the JT prediction $S(\beta) =
 a/\sqrt{\beta} + S_0$ with $R^2 = 0.99$ at $n = 15$, exhibiting
 a smooth crossover from a high-entropy phase to flat spacetime with
 no Hawking-Page transition, as expected in 2D.
-The density of states is Hagedorn-type: a Gaussian envelope
+The density of states is consistent with Hagedorn-like truncation: a Gaussian envelope
 in log-space ($R^2 = 0.996$) fits better than the JT
 $\sinh\sqrt{E}$ prediction ($R^2 = 0.991$), with a hard UV cutoff
-at $S_{\mathrm{BD,max}} = \min(d,m)$ --- the Dilworth width of the
-poset, fixed by the spacetime dimension and independent of the
-lattice spacing.
+at the Dilworth width of the poset.
 A preliminary test in $d = 3$ shows $R^2 = 0.51$ for the $R$-only
 fit at small $n$; the falsifiable prediction is that this value
 \emph{persists} at larger $n$ in $d \geq 3$ (where EH is dynamical),
@@ -87,7 +89,7 @@ finite poset $P$, and $S_{\mathrm{BD}}[S]$ is the Benincasa-Dowker
 action~\cite{BenincasaDowker} restricted to the subregion $S$.
 The sum is finite, every term is computable, and the state space
 $\mathrm{CC}(P)$ consists of causally consistent subregions --- not
-arbitrary subsets. This is a discrete path integral over geometries.
+arbitrary subsets. This is a partition function over causally convex subregions of a fixed background poset.
 
 In two dimensions, the Einstein-Hilbert action $\int R \sqrt{g}\,
 d^2x$ is topological (proportional to the Euler characteristic) and
@@ -95,13 +97,13 @@ carries no local dynamics. The dynamical content of 2D gravity
 resides in the conformal mode and the boundary, as captured by the
 Jackiw-Teitelboim (JT) action~\cite{Jackiw1985,Teitelboim1983}
 and related models~\cite{Saad2019}. A natural
-question is whether the partition function~(\ref{eq:Z}) reproduces
-this structure.
+question is whether the partition function~(\ref{eq:Z}) is consistent
+with this structure.
 
-We find that it does. On 42 variable-width grids at fixed size
-$n = 15$, the effective action extracted from $Z(\beta)$ decomposes
+We find evidence that it is. On 2{,}061 variable-width grids at
+$n = 15$ and $n = 20$, the effective action extracted from $Z(\beta)$ decomposes
 into a topological (Einstein-Hilbert) term and a conformal-mode
-kinetic (Schwarzian) term, with $R^2 = 0.85$ and both coefficients
+kinetic (Schwarzian) term, with $R^2 \approx 0.75$ and both coefficients
 scaling linearly with $\beta$. The conformal-mode term dominates the
 topological term by a factor of $3.1$, as expected in 2D where the
 Einstein-Hilbert action is non-dynamical.
@@ -132,13 +134,29 @@ The Benincasa-Dowker action~\cite{BenincasaDowker} on a causal set
 $S$ is
 \begin{equation}
 \label{eq:BD}
-S_{\mathrm{BD}}[S] = |S| - 2 \cdot |\{(x,y) \in S \times S : x \lessdot y\}|,
+S_{\mathrm{BD}}[S] = |S| - |\{(x,y) \in S \times S : x \lessdot y\}|,
 \end{equation}
 where $x \lessdot y$ denotes a link (covering relation): $x < y$
-with no $z$ satisfying $x < z < y$. On a poset embedded in a
+with no $z$ satisfying $x < z < y$.
+Equivalently, $S_{\mathrm{BD}}[S] = \chi_{\mathrm{graph}}(\mathrm{Hasse}(S))$, the
+graph Euler characteristic of the Hasse diagram: vertices minus edges
+(formally verified~\cite{leanrepo}: \texttt{bd\_eq\_euler}).
+This is the graph $\chi$, not the cell-complex $\chi$; the
+difference counts the 2-cells (``area'').
+On a poset embedded in a
 Lorentzian manifold, the continuum limit of $S_{\mathrm{BD}}$
-converges to the Einstein-Hilbert action $\int R \sqrt{g}\,
+is consistent with the Einstein-Hilbert action $\int R \sqrt{g}\,
 d^dx$~\cite{BenincasaDowker,Surya2019}.
+The positive energy theorem (proved in Lean~4~\cite{leanrepo}:
+\texttt{bd\_action\_ge}, \texttt{bd\_action\_eq\_iff\_full}) states that the
+full grid uniquely minimizes $\chi_{\mathrm{graph}}$ among all nonempty convex
+sub-posets. The action admits a local curvature decomposition:
+defining $\kappa(x) = 2 - \deg(x, S)$, the handshaking lemma gives
+$2\, S_{\mathrm{BD}} = \sum_{x \in S} \kappa(x)$
+(proved in Lean~4~\cite{leanrepo}: \texttt{discrete\_gauss\_bonnet}).
+On $[m]^2$: corners have $\kappa = 0$, edge points $\kappa = -1$,
+interior points $\kappa = -2$. Flat space minimizes total curvature
+because all interior vertices have maximal degree.
 
 \subsection{Discrete curvature and the Schwarzian}
 
@@ -168,16 +186,21 @@ On the standard grid $[m]^d$, the Benincasa-Dowker action
 $S_{\mathrm{BD}}$ is minimized at the full grid (the ``flat''
 configuration):
 \begin{equation}
-S_{\mathrm{BD}}([m]^d) = -m^d + 2m.
+S_{\mathrm{BD}}([m]^d) = -(d{-}1)m^d + d\,m^{d-1}.
 \end{equation}
-This is the unique minimum. For $\beta > 0$, the partition
+For $d = 2$, this simplifies to $-m^2 + 2m = -(m{-}1)^2 + 1$.
+This is the unique minimum (proved in Lean~4~\cite{leanrepo}:
+\texttt{bd\_action\_ge}, \texttt{bd\_action\_eq\_iff\_full}).
+For $\beta > 0$, the partition
 function~(\ref{eq:Z}) is dominated by this configuration: flat
 spacetime is the saddle point.
 
-On $[4]^2$: the full grid has $S_{\mathrm{BD}} = -8$ (unique
-minimum among 1{,}146 convex subsets). The anti-diagonal antichain
-$\{(0,3),(1,2),(2,1),(3,0)\}$ has $S_{\mathrm{BD}} = +4$ (unique
-maximum). The density of states peaks at $S_{\mathrm{BD}} \approx 1$;
+On $[4]^2$: the full grid has $S_{\mathrm{BD}} = -8$
+(\texttt{bd\_action\_4x4}, formally verified). The anti-diagonal antichain
+$\{(0,3),(1,2),(2,1),(3,0)\}$ has $S_{\mathrm{BD}} = +4$
+(\texttt{antidiag\_bd\_4}, formally verified --- this also
+disproves the earlier claim that $S_{\mathrm{BD,max}} = \min(d,m)$).
+The density of states peaks at $S_{\mathrm{BD}} \approx 1$;
 the flat configuration is exponentially rare but exponentially
 favored by the Boltzmann weight.
 
@@ -214,7 +237,7 @@ nearest-neighbor coupling was introduced --- the decay is a
 consequence of the convexity constraint, which correlates the
 inclusion of nearby elements more strongly than distant ones.
 
-\subsection{Boundary dominance}
+\subsection{Boundary dominance}\label{sec:boundary}
 
 The occupation probability $\langle \phi(x) \rangle$ is
 approximately $0.96$ for interior elements and $0.48$ for corners
@@ -224,7 +247,8 @@ boundary. In the $d = 2$ setting, only the two extreme corners
 (global minimum and maximum of the partial order) can be removed
 from the full grid while preserving convexity, yielding exactly 2
 boundary degrees of freedom --- matching the boundary-particle
-content of JT gravity.
+content of JT gravity (proved in Lean~4~\cite{leanrepo}:
+\texttt{boundary\_fluctuation}).
 
 
 %==================================================================
@@ -233,11 +257,13 @@ content of JT gravity.
 %==================================================================
 
 To disentangle the dependence of $\log Z$ on geometric invariants,
-we generated 42 variable-width grid profiles with fixed element count
-$n = 15$ and discrete curvatures ranging from $R = -10$ to
-$R = +10$. Profiles were constructed by systematic enumeration of
-width sequences $(w_0, \ldots, w_{T-1})$ with $\sum w_t = 15$,
-$T$ ranging from 3 to 8, and $w_t \geq 1$.
+we generated variable-width grid profiles with fixed element count.
+An initial sample of 42 profiles at $n = 15$ was extended to
+1{,}092 profiles at $n = 15$ and 969 profiles at $n = 20$
+(2{,}061 total, computed across 120 cores in 66 seconds).
+Profiles were constructed by systematic enumeration of
+width sequences $(w_0, \ldots, w_{T-1})$ with $\sum w_t = n$,
+$T$ ranging from 3 to $n/2$, and $w_t \geq 1$.
 
 For each profile, $|\mathrm{CC}(P)|$ and $Z(\beta)$ were computed
 by exact enumeration. Code and data are available at~\cite{jtrepo}.
@@ -268,37 +294,38 @@ The first term is the action of the dominant configuration (the full
 grid); the second is the entropy of all fluctuations around it.
 
 For a variable-width grid with profile $(w_t)$, the full-grid BD
-action is $S_{\mathrm{BD}}(\text{full}) = n - 2[(n-T) + \sum
+action is $S_{\mathrm{BD}}(\text{full}) = n - [(n-T) + \sum
 \min(w_t, w_{t+1})]$, which depends primarily on~$R$.
 
-Regressing each term separately against geometric invariants on our
-42 profiles reveals a clean orthogonal decomposition:
+Regressing each term separately against geometric invariants on the
+full dataset reveals an orthogonal decomposition:
 
 \begin{table}[h]
-\caption{Saddle-point decomposition of $\log Z$ ($\beta = 1$,
-$n = 15$, 42 profiles).}
+\caption{Saddle-point decomposition of $\log Z$ ($\beta = 1$).
+Original: 42 profiles at $n = 15$. Massive: 1{,}092 profiles at
+$n = 15$, 969 at $n = 20$.}
 \label{tab:decomp}
 \begin{ruledtabular}
-\begin{tabular}{lccc}
-Component & Best predictor & $R^2$ & Cross-$R^2$ \\
+\begin{tabular}{lcccc}
+Component & Predictor & $R^2$ (42) & $R^2$ (1092) & $R^2$ (969) \\
 \midrule
-Action $(-\beta \cdot S_{\mathrm{BD, full}})$ & $R$ & 0.19 & --- \\
-Entropy (remainder) & $\mathrm{LogSch}$ & 0.69 & 0.10 vs $R$ \\
+Action & $R$ & 0.19 & 0.10 & 0.12 \\
+Entropy & LogSch & 0.69 & 0.54 & 0.62 \\
 \midrule
-Combined $\log Z$ & $R + \mathrm{LogSch}$ & 0.85 & --- \\
+Combined & $R{+}$LogSch & 0.85 & 0.71 & 0.76 \\
 \end{tabular}
 \end{ruledtabular}
 \end{table}
 
-The action term depends on the discrete curvature $R$ ($R^2 = 0.19$)
-and is nearly independent of the log-Schwarzian. The entropy term
-depends on the log-Schwarzian ($R^2 = 0.69$) and is nearly
-orthogonal to $R$ ($R^2 = 0.10$ against~$R$). The two predictors
-explain \emph{different} components of $\log Z$ with almost no
-overlap, and their combination gives $R^2 = 0.85$.
+The original 42-profile sample gave $R^2 = 0.85$; the massive
+dataset gives $R^2 \approx 0.71$--$0.76$ at $\beta = 1$, rising to
+$\approx 0.80$--$0.82$ at $\beta = 3$. The effect is real
+(statistically robust on $> 1000$ profiles) but weaker than the
+original sample suggested. The log-Schwarzian dominates
+($R^2 \approx 0.58$ alone); the discrete curvature $R$ contributes
+only $\sim 10\%$.
 
-This is not a phenomenological fit: it is a decomposition into
-physically distinct contributions. The curvature $R$ controls the
+This is a regression model with a physical interpretation: the curvature $R$ controls the
 saddle-point action; the log-Schwarzian controls the entropy of the
 fluctuation spectrum. The near-orthogonality ($R^2 = 0.10$ for the
 cross-term) means the two effects are essentially independent.
@@ -358,13 +385,14 @@ the dominant variance at $n = 30$.
 
 The remaining $35\%$ of unexplained variance at $n = 30$ is
 attributable to higher-order geometric invariants of the width
-profile not captured by the two-parameter model. Adding boundary
-terms and higher-order invariants at $n = 15$ improved $R^2$ from
-$0.85$ to $0.89$ (Table~\ref{tab:regression15}); a similar analysis
-at $n = 30$ is expected to close part of the gap.
+profile not captured by the two-parameter model. On the original
+42 profiles, adding boundary
+terms and higher-order invariants improved $R^2$ from
+$0.85$ to $0.89$ (Table~\ref{tab:regression15}); the massive
+dataset is expected to show a similar relative improvement.
 
 \begin{table}[h]
-\caption{Extended regression at $n = 15$ (42 profiles).}
+\caption{Extended regression at $n = 15$ (original 42 profiles).}
 \label{tab:regression15}
 \begin{ruledtabular}
 \begin{tabular}{lccc}
@@ -463,16 +491,43 @@ The JT prediction $\rho \sim \sinh(2\pi\sqrt{2\gamma E})$ is a good
 approximation ($R^2 = 0.991$), but the best fit is a Gaussian
 envelope ($R^2 = 0.996$): exponential growth in $\sqrt{E}$
 terminated by a hard UV wall. This is the density of states of a
-Hagedorn-type system --- exponential growth capped by a maximum
+consistent with Hagedorn-like behavior --- exponential growth capped by a maximum
 energy --- rather than pure JT gravity.
 
 The UV cutoff has a combinatorial origin: the maximum BD action on
-any convex subset of $[m]^d$ is $S_{\mathrm{BD, max}} = \min(d, m)$,
-the Dilworth width of the poset. For $m \geq d$, the cutoff is
-$S_{\mathrm{BD, max}} = d$, fixed by the spacetime dimension
-and independent of the lattice spacing. This is a hard boundary in
-the spectrum that persists in the continuum limit --- a UV
-completion built into the combinatorial structure.
+any convex subset of $[m]^2$ is $m$, achieved uniquely by the
+anti-diagonal antichain (proved in Lean~4~\cite{leanrepo}).
+For $[2]^4$, the observed maximum is $w = 6$
+(the middle layer $\binom{4}{2}$); the general
+$S_{\mathrm{BD,max}} = w$ for $[m]^d$ with $d \geq 3$ is
+conjectured but not yet proved. This is a hard boundary in
+the spectrum --- a UV completion built into the combinatorial
+structure.
+
+The BD energy spectrum on $[m]^2$ is now bracketed by proved
+theorems at both ends:
+
+\textbf{Theorem (Spectral gap).}
+For any nonempty convex $S \subseteq [m]^2$ with
+$S_{\mathrm{BD}}(S) \neq S_{\mathrm{BD}}(\text{flat})$,
+we have $S_{\mathrm{BD}}(S) \geq S_{\mathrm{BD}}(\text{flat}) + 1$.
+The gap $\Delta = 1$ is universal for all~$m$.
+The first excited level has degeneracy exactly~$2$
+(remove the global minimum or maximum).
+Proved in Lean~4~\cite{leanrepo}.
+
+\textbf{Theorem (Top state uniqueness).}
+The maximum BD action on $[m]^2$ is $S_{\mathrm{BD,max}} = m$,
+achieved by exactly one convex subset: the anti-diagonal antichain.
+Proved in Lean~4~\cite{leanrepo}.
+
+\noindent
+The spectral gap is the discrete analogue of the mass gap in
+JT gravity: the ground state (flat spacetime) is separated from
+all excitations by a universal energy quantum. The two boundary
+degrees of freedom in the first excited level match the
+JT boundary particle content (spectral gap theorem +
+boundary fluctuation theorem of \S\ref{sec:boundary}).
 
 \subsection{2D black hole thermodynamics}
 
@@ -558,13 +613,13 @@ finite-size effects preclude a meaningful comparison.
 
 The partition function $Z(\beta) = \sum_{S \in \mathrm{CC}(P)}
 e^{-\beta \cdot S_{\mathrm{BD}}[S]}$ is a well-defined discrete
-path integral. Its state space is the set of causally consistent
-subregions, its action is the Benincasa-Dowker functional, and the
-sum is finite. No continuum limit, regularization, or gauge-fixing
+partition function over causally convex subregions. Its state space is finite,
+its action is the Benincasa-Dowker functional, and the
+sum is exact. No continuum limit, regularization, or gauge-fixing
 is required.
 
 In two dimensions, the effective action extracted from $Z(\beta)$
-reproduces the structure of Jackiw-Teitelboim gravity. At $n = 15$,
+is consistent with the structure of Jackiw-Teitelboim gravity. At $n = 15$,
 both $R$ and the log-Schwarzian contribute, with a saddle-point
 decomposition (Table~\ref{tab:decomp}) showing the two predictors
 are nearly orthogonal (cross-$R^2 = 0.10$). At $n = 30$, the
@@ -592,12 +647,26 @@ system sizes --- are independent of the $S_4$ eigenvalue analysis
 on $[2]^4$, which remains inconclusive pending larger grids.
 
 The BD-weighted CC partition function provides a concrete, finite,
-computable realization of the sum over geometries in quantum gravity.
+computable discrete statistical model with gravity-like features.
 It makes no reference to a background metric, a continuum manifold,
-or quantum field theory. The geometries summed over are the causally
+or quantum field theory. The objects summed over are the causally
 convex subregions of a finite poset; the action is the
 Benincasa-Dowker functional; the result, in $d = 2$, is
-Jackiw-Teitelboim gravity.
+consistent with Jackiw-Teitelboim gravity.
+
+\textbf{Limitations.}
+A massive-scale test (2{,}061 profiles across $n = 15$ and $n = 20$)
+confirmed the JT-like decomposition but at lower $R^2$ than the
+original 42-profile sample ($R^2 \approx 0.75$ vs $0.85$ at
+$\beta = 1$). The original sample was somewhat favorable; the
+effect is real but modest. The JT identification is
+regression-based, not derived from the partition function analytically.
+The density-of-states comparison (Gaussian $R^2 = 0.996$ vs JT
+$R^2 = 0.991$) is marginal on a tiny system ($[4]^2$, 1146 subsets)
+and should not be taken as definitive evidence for universality.
+Scaling to $[m]^2$ with $m \geq 6$ and to $[m]^3$ is needed to
+test whether the observed structure persists or is a finite-size
+artifact.
 
 \textbf{Open questions.} (i)~\emph{Dimensional dependence of $R^2$.}
 In $d = 2$, the $R$-only variance explained decreases with $n$
