@@ -6,7 +6,7 @@
 
 We define a partition function over causally convex subsets of a discrete spacetime, weighted by the Benincasa-Dowker action: Z(β) = Σ exp(−β·S_BD[S]). On variable-width 2D grids, the effective action extracted from Z(β) correlates with the structure of Jackiw-Teitelboim gravity: a topological term (discrete curvature R) and a conformal-mode kinetic term (the log-Schwarzian).
 
-At n = 15 (42 profiles): R² = 0.85 for the two-parameter fit (R + LogSch), with both coefficients scaling linearly with β (R² > 0.99).
+At n = 15 (1,092 profiles, massive validation): R² = 0.71 (β=1) to 0.80 (β=3) for the two-parameter fit (R + LogSch). The log-Schwarzian dominates (R²(LogSch alone) ≈ 0.54-0.62) while discrete curvature R is weak (R²(R alone) ≈ 0.09). Both coefficients scale linearly with β (R² > 0.99).
 
 At n = 30 (50 profiles): the topological R term becomes negligible (R² < 0.01) while the log-Schwarzian retains R² = 0.65 with β-stable coefficients (R² > 0.99). This is consistent with the expected 2D behavior: the Einstein-Hilbert action is topological (Gauss-Bonnet) and its finite-size contribution washes out at larger n, leaving the JT/Schwarzian as the sole dynamical term.
 
@@ -16,14 +16,15 @@ The action and entropy contributions are nearly orthogonal: R controls the saddl
 
 | Result | Value | Source |
 |--------|-------|--------|
-| JT fit R² (n=15) | 0.846 (β=1), 0.902 (β=3) | `04_jt_model_comparison.py` |
-| JT fit R² (n=30) | 0.653 (β=1), LogSch dominates | `11_n30_10row_validation.py` |
+| JT fit R² (n=15, N=1092) | 0.708 (β=1), 0.804 (β=3) | Massive validation (49x original) |
+| JT fit R² (n=20, N=969) | 0.755 (β=1), 0.815 (β=3) | Massive validation |
+| JT fit R² (n=30, N=50) | 0.653 (β=1), LogSch dominates | `11_n30_10row_validation.py` |
 | β-linearity of coefficients | R² > 0.99 at both n=15 and n=30 | `05_beta_scaling.py` |
 | Action/entropy orthogonality | Entropy vs R: R² = 0.10 | `06_action_entropy_decomposition.py` |
 | JT entropy S(β) = a/√β + S₀ | R² = 0.987 | `07_thermodynamics_and_dos.py` |
 | Density of states | Gaussian envelope R² = 0.996 | `07_thermodynamics_and_dos.py` |
 | d-dependence: fixed-N R² | d=2: 0.35 → d=3: 0.51 (preliminary, small sample) | Not scripted |
-| UV cutoff | S_BD,max = min(d, m) = Dilworth width | Universal |
+| UV cutoff | S_BD,max = width([m]^d) = m for d=2 (NOT min(d,m)) | `BDMaxAction.lean` |
 | S₄ check (d=4) | 2 dominant eigenvalues = S₄ irrep, not gravitons | `02_bd_4d_graviton_test.py` |
 
 ## Scripts
@@ -72,7 +73,7 @@ All scripts are self-contained Python files. Run with `python3 scripts/XX_name.p
 
 ## Companion Repositories
 
-- [causal-algebraic-geometry-lean](https://github.com/tomdif/causal-algebraic-geometry-lean) — Lean 4 formalization (dimension law, tiling inequality, ρ₂ = 16 fully proved, Wilson loop)
+- [causal-algebraic-geometry-lean](https://github.com/tomdif/causal-algebraic-geometry-lean) — Lean 4 formalization (82 files, 17,343 lines, zero sorry on critical path: dimension law, ρ₂ = 16, positive energy, Gauss-Bonnet, spectral gap, saddle dominance, parameter-free T·S prediction, d=4 selection)
 - Papers I–III: Grid Convex Subsets, Causal-Algebraic Geometry, Black Hole Thermodynamics
 
 ## Citation
